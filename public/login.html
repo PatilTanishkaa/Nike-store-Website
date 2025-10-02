@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Store - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Your existing CSS */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; background-color: #f5f5f5; }
+        .loginContainer { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .loginCard { display: flex; width: 900px; height: 600px; background-color: white; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); border-radius: 15px; overflow: hidden; }
+        .loginLeft { flex: 1; }
+        .loginImg { width: 100%; height: 100%; object-fit: cover; }
+        .loginRight { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; }
+        .loginTitle { font-size: 36px; font-weight: 900; color: #111; margin-bottom: 10px; }
+        .loginDesc { font-size: 16px; color: gray; margin-bottom: 30px; }
+        .loginForm { display: flex; flex-direction: column; }
+        .loginInput { padding: 15px; margin-bottom: 20px; border: 1px solid lightgray; border-radius: 8px; font-size: 16px; }
+        .loginButton { padding: 15px; background-color: #369e62; color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        .loginButton:hover { background-color: #2c7a4d; }
+        .loginFooter { margin-top: 20px; color: gray; font-size: 14px; }
+        .loginFooter a { color: #369e62; text-decoration: none; font-weight: 600; }
+        .loginFooter a:hover { text-decoration: underline; }
+        @media screen and (max-width: 768px) {
+            .loginCard { flex-direction: column; width: 90%; height: auto; }
+            .loginLeft { height: 300px; }
+            .loginRight { padding: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+  <div class="loginContainer">
+    <div class="loginCard">
+      <div class="loginLeft">
+        <img src="https://images.pexels.com/photos/9295809/pexels-photo-9295809.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="Nike sneakers" class="loginImg">
+      </div>
+      <div class="loginRight">
+        <h1 class="loginTitle">Welcome Back!</h1>
+        <p class="loginDesc">Sign in to continue to Nike Store</p>
+        <form class="loginForm">
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com" class="loginInput" id="loginEmail" required>
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" class="loginInput" id="loginPassword" required>
+          <button type="submit" class="loginButton">Login</button>
+        </form>
+        <span class="loginFooter">Don't have an account? <a href="signup.html">Sign Up</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.querySelector('.loginForm');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(data.message);
+          window.location.href = data.redirect || '/index.html';
+        } else {
+          alert(data.message);
+          if (res.status === 404) {
+            if (confirm("User not found. Do you want to sign up?")) {
+              window.location.href = '/signup.html';
+            }
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        alert('❌ Server error');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Summary - Nike Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ✅ Same Navbar -->
+  <nav id="nav">
+    <div class="navTop">
+      <div class="navItem"><img src="./img/sneakers.png" alt=""></div>
+      <div class="navItem"><span class="limitedOffer">Thank you for shopping!</span></div>
+    </div>
+    <div class="navBottom">
+      <h3 class="menuItem">AIR FORCE</h3>
+      <h3 class="menuItem">JORDAN</h3>
+      <h3 class="menuItem">BLAZER</h3>
+      <h3 class="menuItem">CRATER</h3>
+      <h3 class="menuItem">HIPPIE</h3>
+    </div>
+  </nav>
+
+  <!-- ✅ Order Details -->
+  <div class="orderContainer">
+    <h1 class="orderTitle">🎉 Order Successful!</h1>
+    <p class="orderDesc">Here are your order details:</p>
+
+    <div class="orderCard">
+      <h2 id="orderProduct"></h2>
+      <p><strong>Price:</strong> $<span id="orderPrice"></span></p>
+      <p><strong>Size:</strong> <span id="orderSize"></span></p>
+      <p><strong>Color:</strong> <span id="orderColor"></span></p>
+      <hr>
+      <p><strong>Name:</strong> <span id="orderName"></span></p>
+      <p><strong>Phone:</strong> <span id="orderPhone"></span></p>
+      <p><strong>Address:</strong> <span id="orderAddress"></span></p>
+    </div>
+
+    <button onclick="window.location.href='home.html'" class="nsButton">🛍 Continue Shopping</button>
+  </div>
+
+  <!-- ✅ Same Footer -->
+  <footer>
+    <div class="footerLeft">
+      <div class="footerMenu">
+        <h1 class="fMenuTitle">Products</h1>
+        <ul class="fList">
+          <li class="fListItem">Air Force</li>
+          <li class="fListItem">Air Jordan</li>
+          <li class="fListItem">Blazer</li>
+          <li class="fListItem">Crater</li>
+          <li class="fListItem">Hippie</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footerRight">
+      <span class="copyright">@Nike Store 2025. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Load order details
+    const order = JSON.parse(localStorage.getItem("lastOrder"));
+    if (order) {
+      document.getElementById("orderProduct").innerText = order.product;
+      document.getElementById("orderPrice").innerText = order.price;
+      document.getElementById("orderSize").innerText = order.size || "Not selected";
+      document.getElementById("orderColor").innerText = order.color || "Default";
+      document.getElementById("orderName").innerText = order.name;
+      document.getElementById("orderPhone").innerText = order.phone;
+      document.getElementById("orderAddress").innerText = order.address;
+    }
+  </script>
+</body>
+</html>

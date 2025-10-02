@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Store - Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signup.css">
+    <style>
+        /* Your existing CSS */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; background-color: #f5f5f5; }
+        .signupContainer { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .signupCard { display: flex; width: 900px; height: 650px; background-color: white; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); border-radius: 15px; overflow: hidden; }
+        .signupLeft { flex: 1; }
+        .signupImg { width: 100%; height: 100%; object-fit: cover; }
+        .signupRight { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; }
+        .signupTitle { font-size: 36px; font-weight: 900; color: #111; margin-bottom: 10px; }
+        .signupDesc { font-size: 16px; color: gray; margin-bottom: 30px; }
+        .signupForm { display: flex; flex-direction: column; }
+        .signupInput { padding: 15px; margin-bottom: 20px; border: 1px solid lightgray; border-radius: 8px; font-size: 16px; }
+        .signupButton { padding: 15px; background-color: #369e62; color: white; font-size: 18px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        .signupButton:hover { background-color: #2c7a4d; }
+        .signupFooter { margin-top: 20px; color: gray; font-size: 14px; }
+        .signupFooter a { color: #369e62; text-decoration: none; font-weight: 600; }
+        .signupFooter a:hover { text-decoration: underline; }
+        @media screen and (max-width: 768px) {
+            .signupCard { flex-direction: column; width: 90%; height: auto; }
+            .signupLeft { height: 300px; }
+            .signupRight { padding: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+  <div class="signupContainer">
+    <div class="signupCard">
+      <div class="signupLeft">
+        <img src="https://images.pexels.com/photos/4753986/pexels-photo-4753986.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="Nike sneakers" class="signupImg">
+      </div>
+      <div class="signupRight">
+        <h1 class="signupTitle">Create Account</h1>
+        <p class="signupDesc">Join Nike Store and enjoy exclusive offers!</p>
+        <form class="signupForm">
+          <label>Full Name</label>
+          <input type="text" placeholder="John Doe" class="signupInput" id="signupName" required>
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com" class="signupInput" id="signupEmail" required>
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" class="signupInput" id="signupPassword" required>
+          <label>Confirm Password</label>
+          <input type="password" placeholder="Confirm password" class="signupInput" id="signupConfirmPassword" required>
+          <button type="submit" class="signupButton">Sign Up</button>
+        </form>
+        <span class="signupFooter">Already have an account? <a href="login.html">Login</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const signupForm = document.querySelector('.signupForm');
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+      if (password !== confirmPassword) {
+        alert('⚠️ Passwords do not match!');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(data.message);
+          // Redirect directly to index.html after signup
+          window.location.href = '/home.html';
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('❌ Server error');
+      }
+    });
+  </script>
+</body>
+</html>
